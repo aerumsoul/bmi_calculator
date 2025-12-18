@@ -1,24 +1,24 @@
-// import required modules
+// Import required modules
 const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
 
-// creating express app
+// Create express app
 const app = express();
 const PORT = 3000;
 
-// middleware to read form data
+// Middleware to read form data
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// middleware to use css files
+// Middleware to use CSS files
 app.use(express.static("public"));
 
-// get route shows the bmi form
+// GET route: shows the BMI form
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "views", "index.html"));
 });
 
-// post route calculates BMI
+// POST route: calculates BMI
 app.post("/calculate-bmi", (req, res) => {
   // Get weight and height from form
   const weight = parseFloat(req.body.weight);
@@ -30,13 +30,13 @@ app.post("/calculate-bmi", (req, res) => {
     return;
   }
 
-  // bmi formula
+  // BMI formula
   const bmi = weight / (height * height);
 
   let category = "";
   let color = "";
 
-  // bmi category
+  // Decide BMI category
   if (bmi < 18.5) {
     category = "Underweight";
     color = "blue";
@@ -51,7 +51,7 @@ app.post("/calculate-bmi", (req, res) => {
     color = "red";
   }
 
-  // send result to browser
+  // Send result to browser
   res.send(`
     <h1>BMI Result</h1>
     <p>Your BMI is ${bmi.toFixed(2)}</p>
@@ -62,5 +62,6 @@ app.post("/calculate-bmi", (req, res) => {
 
 // Start server
 app.listen(PORT, () => {
-  console.log("Server running on port 3000");
+  console.log(`Server running on http://localhost:${PORT}`);
 });
+
